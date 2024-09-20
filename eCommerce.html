@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Table with JSON and Form</title>
+    <script>
+        const productData={"products":[{"id":"abc123defg","name":"Laptop","price":1000,"category":{"main":"Electronics","sub":"Computers"}},{"id":"xyz789hijk","name":"Smartphone","price":800,"category":{"main":"Electronics","sub":"Mobile Devices"}},{"id":"lmn456pqrs","name":"Office Chair","price":150,"category":{"main":"Furniture","sub":"Office"}}]};
+        
+        function displayProductData(){
+            const jsonDisplayElement = document.getElementById('jsonDisplay');
+            jsonDisplayElement.textContent = JSON.stringify(productData, null, 2);
+            jsonDisplayElement.style.display = "block"; // Show JSON on button click
+        }
+
+        function generateProductId(){
+            const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let id='';
+            for(let i=0;i<10;i++){id+=chars.charAt(Math.floor(Math.random()*chars.length));}
+            return id;
+        }
+
+        function addProduct(event){
+            event.preventDefault();
+            const id = generateProductId();
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const category = document.getElementById('productCategory').value;
+
+            productData.products.push({id:id,name:name,price:parseFloat(price),category:{main:category,sub:""}});
+            
+            const table=document.getElementById('productTable').getElementsByTagName('tbody')[0];
+            const newRow=table.insertRow();
+            newRow.innerHTML=`<td>${id}</td><td>${name}</td><td>$${price}</td><td>${category}</td>`;
+            
+            document.getElementById('productForm').reset();
+        }
+    </script>
+    <style>
+        #productTable{border-collapse:collapse;width:100%;margin-bottom:20px;}
+        #productTable th,#productTable td{border:1px solid #ddd;padding:8px;}
+        #productTable th{background-color:#f2f2f2;text-align:left;}
+        #jsonDisplay{white-space:pre-wrap;background-color:#f4f4f4;padding:10px;border:1px solid #ddd;margin-top:20px;font-family:monospace;width:100%;display:none;} /* Initially hidden */
+        form{margin-bottom:20px;display:flex;align-items:flex-start;gap:15px;width:100%;}
+        form div{display:flex;flex-direction:column;width:100%;}
+        label{margin-bottom:5px;}
+        select,input{padding:5px;width:100%;}
+        button{padding:5px;}
+    </style>
+</head>
+<body>
+    <h1>Products</h1>
+    <h2>Add a New Product</h2>
+    <form id="productForm" onsubmit="addProduct(event)">
+        <div>
+            <label for="productName">Product Name:</label>
+            <select id="productName" name="productName" required>
+                <option value="">--Select Product--</option>
+                <option value="Laptop">Laptop</option>
+                <option value="Smartphone">Smartphone</option>
+                <option value="Office Chair">Office Chair</option>
+                <option value="Tablet">Tablet</option>
+                <option value="Monitor">Monitor</option>
+                <option value="Keyboard">Keyboard</option>
+                <option value="Headphones">Headphones</option>
+            </select>
+        </div>
+        <div>
+            <label for="productPrice">Price:</label>
+            <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+        </div>
+        <div>
+            <label for="productCategory">Category:</label>
+            <select id="productCategory" name="productCategory" required>
+                <option value="">--Select Category--</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Gaming">Gaming</option>
+                <option value="Office Supplies">Office Supplies</option>
+            </select>
+        </div>
+        <button type="submit">Add Product</button>
+    </form>
+    <table id="productTable">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>abc123defg</td>
+                <td>Laptop</td>
+                <td>$1000</td>
+                <td>Electronics</td>
+            </tr>
+            <tr>
+                <td>xyz789hijk</td>
+                <td>Smartphone</td>
+                <td>$800</td>
+                <td>Electronics</td>
+            </tr>
+            <tr>
+                <td>lmn456pqrs</td>
+                <td>Office Chair</td>
+                <td>$150</td>
+                <td>Furniture</td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="displayProductData()">Display Products JSON</button>
+    <h2>Products JSON Data:</h2>
+    <div id="jsonDisplay"></div>
+</body>
+</html>
