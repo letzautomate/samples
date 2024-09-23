@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Service History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vehicle Service History JSON</h1>
+    
+    <pre>
+{
+  "vehicle": {
+    "vin": "1HGCM82633A123456",
+    "make": "Honda",
+    "model": "Accord",
+    "year": 2020,
+    "service_records": [
+      {
+        "date": "2024-01-15",
+        "mileage": 20000,
+        "services": [
+          { "type": "Oil Change", "cost": 75.00 },
+          { "type": "Tire Rotation", "cost": 40.00 }
+        ]
+      },
+      {
+        "date": "2023-06-20",
+        "mileage": 15000,
+        "services": [
+          { "type": "Brake Inspection", "cost": 50.00 },
+          { "type": "Air Filter Replacement", "cost": 30.00 }
+        ]
+      }
+    ]
+  }
+}
+    </pre>
+
+</body>
+</html>
