@@ -1,22 +1,39 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two-Line Navigation Links</title>
+    <title>Navigation Links with Sections</title>
     <style>
         nav a {
             display: block; /* This makes each link appear on a new line */
             margin-bottom: 10px; /* Adds some space between the links */
         }
+        section {
+            margin-bottom: 20px; /* Adds some space between sections */
+        }
+        h2 {
+            color: #2E4053;
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="eCommerce.html">eCommerce Example</a>
-        <a href="Login.html">Login</a>
-		<a href="VehicleServiceHistory.html">Vehicle Service History</a>
-		<a href="Financial Portfolio.html">Financial Portfolio</a>
-    </nav>
+    <section>
+        <h2>Web UI</h2>
+        <nav>
+            <a href="eCommerce.html">eCommerce Example</a>
+            <a href="Login.html">Login</a>
+        </nav>
+    </section>
+
+    <section>
+        <h2>API</h2>
+        <nav>
+            <a href="VehicleServiceHistory.html">Vehicle Service History</a>
+            <a href="FinancialPortfolio.html">Financial Portfolio</a>
+        </nav>
+    </section>
 </body>
 </html>
+
