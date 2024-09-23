@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Financial Portfolio</h1>
+    
+    <pre>
+{
+  "portfolio": {
+    "owner": {
+      "name": "Mark Smith",
+      "email": "mark.smith@finance.com"
+    },
+    "accounts": [
+      {
+        "type": "Savings",
+        "balance": 15000.75,
+        "currency": "USD",
+        "transactions": [
+          {
+            "date": "2024-04-01",
+            "description": "Salary Deposit",
+            "amount": 2500.00,
+            "type": "credit"
+          },
+          {
+            "date": "2024-03-25",
+            "description": "ATM Withdrawal",
+            "amount": 300.00,
+            "type": "debit"
+          }
+        ]
+      },
+      {
+        "type": "Investment",
+        "balance": 50000.00,
+        "currency": "USD",
+        "assets": [
+          {
+            "symbol": "AAPL",
+            "shares": 10,
+            "price_per_share": 145.00
+          },
+          {
+            "symbol": "GOOGL",
+            "shares": 5,
+            "price_per_share": 2800.00
+          }
+        ]
+      }
+    ]
+  }
+}
+
+    </pre>
+
+</body>
+</html>
