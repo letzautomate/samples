@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Insurance Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+
+        .grid-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Medical Insurance Details</h2>
+        <form id="insurance-form">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="primary-insured-name" class="form-label">Primary Insured Name</label>
+                    <input type="text" class="form-control" id="primary-insured-name" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="family-member-name" class="form-label">Family Member Name</label>
+                    <input type="text" class="form-control" id="family-member-name" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="birthday" class="form-label">Birthday</label>
+                    <input type="date" class="form-control" id="birthday" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select" id="gender" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="relationship" class="form-label">Relationship</label>
+                    <select class="form-select" id="relationship" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option>Spouse</option>
+                        <option>Child</option>
+                        <option>Parent</option>
+                        <option>Sibling</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Insurance</button>
+        </form>
+
+        <div class="grid-container">
+            <h4 class="mt-4">Insurance List</h4>
+            <table class="table table-bordered table-hover mt-2" id="insurance-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Primary Insured</th>
+                        <th>Policy Number</th>
+                        <th>Family Member Name</th>
+                        <th>Birthday</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Relationship</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Initial rows for demonstration -->
+                    <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>P-1001</td>
+                        <td>Jane Doe</td>
+                        <td>1985-05-20</td>
+                        <td>39</td>
+                        <td>Female</td>
+                        <td>Spouse</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editRow(0)">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteRow(0)">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Robert Smith</td>
+                        <td>P-1002</td>
+                        <td>Michael Smith</td>
+                        <td>2010-12-15</td>
+                        <td>13</td>
+                        <td>Male</td>
+                        <td>Child</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editRow(1)">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteRow(1)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById('insurance-form');
+            const insuranceTable = document.getElementById('insurance-table').querySelector('tbody');
+            let insuranceData = [
+                {
+                    primaryInsured: 'John Doe',
+                    policyNumber: 'P-1001',
+                    familyMemberName: 'Jane Doe',
+                    birthday: '1985-05-20',
+                    age: 39,
+                    gender: 'Female',
+                    relationship: 'Spouse'
+                },
+                {
+                    primaryInsured: 'Robert Smith',
+                    policyNumber: 'P-1002',
+                    familyMemberName: 'Michael Smith',
+                    birthday: '2010-12-15',
+                    age: 13,
+                    gender: 'Male',
+                    relationship: 'Child'
+                }
+            ];
+            let policyNumberCounter = 1003;
+            let editIndex = -1;
+
+            // Handle form submission
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const primaryInsured = document.getElementById('primary-insured-name').value;
+                const familyMemberName = document.getElementById('family-member-name').value;
+                const birthday = document.getElementById('birthday').value;
+                const age = calculateAge(birthday);
+                const gender = document.getElementById('gender').value;
+                const relationship = document.getElementById('relationship').value;
+
+                const policyNumber = `P-${policyNumberCounter++}`;
+
+                if (editIndex === -1) {
+                    // Add new entry
+                    insuranceData.push({
+                        primaryInsured,
+                        policyNumber,
+                        familyMemberName,
+                        birthday,
+                        age,
+                        gender,
+                        relationship
+                    });
+                } else {
+                    // Edit existing entry
+                    insuranceData[editIndex] = {
+                        primaryInsured,
+                        policyNumber: insuranceData[editIndex].policyNumber, // Preserve original policy number
+                        familyMemberName,
+                        birthday,
+                        age,
+                        gender,
+                        relationship
+                    };
+                    editIndex = -1;
+                }
+
+                renderTable();
+                form.reset();
+            });
+
+            // Calculate age from birthday
+            function calculateAge(birthday) {
+                const today = new Date();
+                const birthDate = new Date(birthday);
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDifference = today.getMonth() - birthDate.getMonth();
+                if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                return age;
+            }
+
+            // Render table data
+            function renderTable() {
+                insuranceTable.innerHTML = '';
+                insuranceData.forEach((data, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${data.primaryInsured}</td>
+                        <td>${data.policyNumber}</td>
+                        <td>${data.familyMemberName}</td>
+                        <td>${data.birthday}</td>
+                        <td>${data.age}</td>
+                        <td>${data.gender}</td>
+                        <td>${data.relationship}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="editRow(${index})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteRow(${index})">Delete</button>
+                        </td>
+                    `;
+                    insuranceTable.appendChild(row);
+                });
+            }
+
+            // Edit row
+            window.editRow = function (index) {
+                const data = insuranceData[index];
+                document.getElementById('primary-insured-name').value = data.primaryInsured;
+                document.getElementById('family-member-name').value = data.familyMemberName;
+                document.getElementById('birthday').value = data.birthday;
+                document.getElementById('gender').value = data.gender;
+                document.getElementById('relationship').value = data.relationship;
+                editIndex = index;
+            };
+
+            // Delete row
+            window.deleteRow = function (index) {
+                insuranceData.splice(index, 1);
+                renderTable();
+            };
+
+            // Initial render
+            renderTable();
+        });
+    </script>
+</body>
+
+</html>
